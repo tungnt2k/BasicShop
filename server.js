@@ -6,6 +6,9 @@ const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3000;
 const app = express();
 
+const connectDB = require('./config/db');
+connectDB();
+
 const homeRoutes = require('./routes/home.routes');
 const adminRoutes = require('./routes/admin.routes');
 
