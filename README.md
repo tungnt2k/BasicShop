@@ -1,4 +1,4 @@
-# Air VN
+# About
 
 This is our first pet project <3
 
