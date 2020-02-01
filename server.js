@@ -27,11 +27,15 @@ connectDB();
 
 //middlewares
 const adminMiddlewares = require('./middlewares/authUser');
+const authApiMiddleware = require('./middlewares/authApi.middleware');
 
+// Routes
 const homeRoutes = require('./routes/home.routes');
 const adminRoutes = require('./routes/admin.routes');
 const productRoutes = require('./routes/product.route');
 const adminProductRoutes = require('./routes/adminProduct.route');
+const apiRoutes = require('./routes/api.routes');
+
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
@@ -55,6 +59,7 @@ app.use('/', homeRoutes);
 app.use('/admin', adminRoutes);
 app.use('/product', productRoutes);
 app.use('/product', adminMiddlewares, adminProductRoutes);
+app.use('/api', authApiMiddleware, apiRoutes);
 
 
 app.listen(PORT, (err) => {
