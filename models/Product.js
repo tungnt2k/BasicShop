@@ -15,7 +15,7 @@ const ProductSchema = mongoose.Schema({
         type: Number,
         require: true
     },
-    amout: {
+    amount: {
         type: Number,
         require: true
     },
@@ -36,4 +36,4 @@ const ProductSchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('product', ProductSchema)
+module.exports = mongoose.model('product', ProductSchema, 'products')
