@@ -1,4 +1,4 @@
 {
     "mongoURI": "mongodb+srv://admin:admin123456@tungnt-dfywv.mongodb.net/test?retryWrites=true&w=majority",
-    "jwtSecret": "BasicShop"
+    "Secret": "BasicShop"
 }
