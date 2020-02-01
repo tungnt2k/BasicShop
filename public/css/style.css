@@ -1,0 +1,16 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.products{
+    display: flex;
+}
+
+.products .card{
+    margin: 0 10px;
+}
+
+.table td, .table th{
+    padding: 0;
+}
