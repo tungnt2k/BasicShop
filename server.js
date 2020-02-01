@@ -14,16 +14,16 @@ const connectDB = require('./config/db');
 connectDB();
 
 //Create admin user 
-const User = require('./models/User');
-const salt = bcryptjs.genSaltSync(10);
-const adminUser = new User({
-    name: "admin",
-    email: "admin@test.com",
-    password: "123456",
-    type: "ad"
-});
-adminUser.password = bcryptjs.hashSync(adminUser.password, salt);
-adminUser.save();
+// const User = require('./models/User');
+// const salt = bcryptjs.genSaltSync(10);
+// const adminUser = new User({
+//     name: "admin",
+//     email: "admin@test.com",
+//     password: "123456",
+//     type: "ad"
+// });
+// adminUser.password = bcryptjs.hashSync(adminUser.password, salt);
+// adminUser.save();
 
 //middlewares
 const adminMiddlewares = require('./middlewares/authUser');
