@@ -35,6 +35,7 @@ const adminRoutes = require('./routes/admin.routes');
 const productRoutes = require('./routes/product.route');
 const adminProductRoutes = require('./routes/adminProduct.routes');
 const apiRoutes = require('./routes/api.routes');
+const adminCateRoutes = require('./routes/adminCate.routes');
 
 
 app.set('views', './views');
@@ -56,8 +57,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', homeRoutes);
-app.use('/admin', adminRoutes);
 app.use('/product', productRoutes);
+
+app.use('/admin', adminRoutes);
+app.use('/admin/cates', adminMiddlewares, adminCateRoutes);
 app.use('/admin/products', adminMiddlewares, adminProductRoutes);
 app.use('/api', authApiMiddleware, apiRoutes);
 

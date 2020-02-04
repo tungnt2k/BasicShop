@@ -4,7 +4,7 @@ module.exports.create = (req, res) => {
    res.render('admin/createProduct')
 };
 
-module.exports.createPost = (req, res) => {
+module.exports.createPost = async (req, res) => {
    var file = req.file.path.split('\\').slice(1).join('/');
    var data = {
       name: req.body.name,
@@ -16,7 +16,7 @@ module.exports.createPost = (req, res) => {
 
    var newProduct = new Product(data);
 
-   newProduct.save();
+   await newProduct.save();
 
    res.redirect('/admin/products/list');
 }

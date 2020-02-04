@@ -5,7 +5,7 @@ const multer = require('multer')
 
 const upload = multer({ dest: './public/uploads/' })
 
-const controller = require('../controllers/adminProduct.constroller');
+const controller = require('../controllers/adminProduct.controller');
 
 router.get('/create', controller.create);
 router.post('/create', upload.single('image'), controller.createPost);
