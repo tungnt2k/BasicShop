@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create Product</title>
+    <title>Create Category</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
     <div class="container">
-        <h1 class="text-center">Create Product</h1>
+        <h1 class="text-center">Create Category</h1>
         <div class="form-create" style="width: 100%; box-sizing: border-box;">
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" action="/admin/cates/create">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input class="form-control" type="text" name="name" id="name">
@@ -23,19 +23,7 @@
                     <label for="des">Description</label>
                     <input class="form-control" type="text" name="des" id="des">
                 </div>
-                <div class="form-group">
-                    <label for="price">Price</label>
-                    <input class="form-control" type="number" name="price" id="price" min="0">
-                </div>
-                <div class="form-group">
-                    <label for="amount">Amount</label>
-                    <input class="form-control" type="number" name="amount" id="amount" min="0">
-                </div>
-                <div class="form-group">
-                    <label for="image">Image</label>
-                    <input class="form-control" type="file" name="image" id="image">
-                </div>
-                <button class="btn btn-info">Create</button>
+                <button class="btn btn-info" type="submit">Create</button>
             </form>
         </div>
     </div>
