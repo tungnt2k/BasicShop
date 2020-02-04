@@ -40,7 +40,7 @@ const apiRoutes = require('./routes/api.routes');
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-app.use(express.static('./public'));
+app.use('/', express.static('./public'));
 app.use(logger('dev'));
 app.use(session({
     secret: config.get('Secret'),
