@@ -9,6 +9,7 @@ const authMiddleware = require('../middlewares/authUser');
 const User = require('../models/User');
 
 router.get('/', authMiddleware, controller.index);
+router.get('/logout', controller.getLogout);
 router.get('/login', controller.getLogin);
 router.post('/login',
     passport.authenticate('local', {

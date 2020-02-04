@@ -5,7 +5,7 @@ module.exports.create = (req, res) => {
 };
 
 module.exports.createPost = (req, res) => {
-   var file = req.file.path.split('/').splice(1).join('/');
+   var file = req.file.path.split('\\').slice(1).join('/');
    var data = {
       name: req.body.name,
       des: req.body.des,
