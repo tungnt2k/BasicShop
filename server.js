@@ -33,7 +33,7 @@ const authApiMiddleware = require('./middlewares/authApi.middleware');
 const homeRoutes = require('./routes/home.routes');
 const adminRoutes = require('./routes/admin.routes');
 const productRoutes = require('./routes/product.route');
-const adminProductRoutes = require('./routes/adminProduct.route');
+const adminProductRoutes = require('./routes/adminProduct.routes');
 const apiRoutes = require('./routes/api.routes');
 
 
@@ -58,7 +58,7 @@ app.use(passport.session());
 app.use('/', homeRoutes);
 app.use('/admin', adminRoutes);
 app.use('/product', productRoutes);
-app.use('/product', adminMiddlewares, adminProductRoutes);
+app.use('/admin/products', adminMiddlewares, adminProductRoutes);
 app.use('/api', authApiMiddleware, apiRoutes);
 
 

@@ -1,10 +1,10 @@
 const Product = require('../models/Product')
 
-module.exports.create = (req, res, next) => {
-   res.render('products/create')
+module.exports.create = (req, res) => {
+   res.render('admin/createProduct')
 };
 
-module.exports.createPost = (req, res, next) => {
+module.exports.createPost = (req, res) => {
    var file = req.file.path.split('/').splice(1).join('/');
    var data = {
       name: req.body.name,
@@ -17,6 +17,10 @@ module.exports.createPost = (req, res, next) => {
    var newProduct = new Product(data);
 
    newProduct.save();
-   
-   res.redirect('/product');
+
+   res.redirect('/admin/products/list');
+}
+
+module.exports.getList = (req, res) => {
+   res.render('admin/listProducts');
 }

@@ -8,7 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Admin</title>
-    <link href="./css/adminStyles.css" rel="stylesheet" />
+    <link href="/css/adminStyles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
         crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
@@ -41,7 +41,7 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="/">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
@@ -97,50 +97,25 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
-                    <h1 class="mt-4">Dashboard</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                    <div class="card mb-4">
-                        <div class="card-header"><i class="fas fa-table mr-1"></i>DataTable Example</div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="#">Sản Phẩm</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
+                        </ol>
+                    </nav>
+                    <table id="products" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
+
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid">
@@ -161,6 +136,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
         $(document).ready(function () {
             var path = window.location.href;
@@ -175,6 +151,62 @@
                 e.preventDefault();
                 $("body").toggleClass("sb-sidenav-toggled");
             });
+
+            var table = $("#products").DataTable({
+                ajax: {
+                    url: "/api/products",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, product) {
+                            return "<a href='#'>" + product.name + "</a>";
+                        }
+                    },
+                    {
+                        data: "des"
+                    },
+                    {
+                        data: "_id",
+                        render: function (data) {
+                            return "<button class='btn btn-danger js-delete' data-product-id=" + data + " >Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#products").on("click",
+                ".js-delete",
+                function () {
+                    var button = $(this);
+                    Swal.fire({
+                        title: 'Cảnh báo',
+                        text: "Bạn có chắc chắn muốn xóa",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Có !'
+                    }).then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                url: "/api/products/" + button.attr("data-product-id"),
+                                method: "DELETE",
+                                success: function () {
+                                    table.row(button.parents("tr")).remove().draw();
+                                }
+
+                            });
+                            Swal.fire(
+                                'Xóa !',
+                                'Xóa thành công',
+                                'success'
+                            )
+                        }
+                    })
+                });
+
         });
     </script>
 
