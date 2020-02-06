@@ -26,8 +26,9 @@ connectDB();
 // adminUser.save();
 
 //middlewares
-const adminMiddlewares = require('./middlewares/authUser');
+const adminMiddlewares = require('./middlewares/authAdmin');
 const authApiMiddleware = require('./middlewares/authApi.middleware');
+const sessionMiddleware = require('./middlewares/session.middleware');
 
 // Routes
 const homeRoutes = require('./routes/home.routes');
@@ -36,7 +37,8 @@ const productRoutes = require('./routes/product.route');
 const adminProductRoutes = require('./routes/adminProduct.routes');
 const apiRoutes = require('./routes/api.routes');
 const adminCateRoutes = require('./routes/adminCate.routes');
-
+const cartRoutes = require('./routes/cart.routes');
+const apiRouter = require('./api/routes/cart.routes');
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
@@ -49,21 +51,25 @@ app.use(session({
     key: 'user',
     saveUninitialized: true
 }));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(sessionMiddleware);
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', homeRoutes);
-app.use('/product', productRoutes);
+app.use('/products', productRoutes);
+app.use('/products/cart', cartRoutes);
+
 
 app.use('/admin', adminRoutes);
 app.use('/admin/cates', adminMiddlewares, adminCateRoutes);
 app.use('/admin/products', adminMiddlewares, adminProductRoutes);
 app.use('/api', authApiMiddleware, apiRoutes);
-
+app.use('/api', apiRouter);
 
 app.listen(PORT, (err) => {
     if (err) {

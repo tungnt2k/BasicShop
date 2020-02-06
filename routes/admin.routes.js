@@ -5,7 +5,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 const controller = require('../controllers/admin');
-const authMiddleware = require('../middlewares/authUser');
+const authMiddleware = require('../middlewares/authAdmin');
 const User = require('../models/User');
 
 router.get('/', authMiddleware, controller.index);

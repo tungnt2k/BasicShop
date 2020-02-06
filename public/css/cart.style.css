@@ -1,0 +1,64 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.body{}
+
+.body .cart{}
+
+.body .cart .tab-body{
+    box-shadow: 0 0 10px gainsboro;
+}
+
+.body .cart .tab-body td{
+    border: none;
+}
+
+.body .cart .tab-body .pr-img{
+    width: 90px;
+}
+
+.body .cart .tab-body .name a{
+    color: #222F3E;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.body .cart .tab-body .name a:hover{
+    color: #01A3A4;
+}
+
+.body .cart .tab-body .des{}
+
+.body .cart .tab-body .des span{
+    font-size: 1rem;
+    color: #222F3E;
+    font-weight: 300;
+}
+
+.body .cart .tab-body .control{
+    margin-top: 10px;
+}
+
+.body .cart .tab-body .control a.delete{
+    cursor: pointer;
+}
+
+.body .cart .tab-body .control a.delete span{
+    color: #01A3A4;
+    font-size: 1rem;
+}
+
+.body .cart .tab-body .amount{
+    width: 50px;
+    display: grid;
+    grid-template-columns: 1ft 1ft 1ft;
+    border: 1px solid gainsboro;
+    border-radius: 10px;
+}
+
+.body .cart .tab-body .amount span.value{
+    margin: auto;
+}

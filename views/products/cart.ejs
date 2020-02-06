@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <link rel="stylesheet" href="/css/cart.style.css">
     <link rel="stylesheet" href="/css/home.style.css">
 </head>
 
@@ -62,8 +63,87 @@
                 </nav>
             </div>
         </div>
-        <div class="body"></div>
+        <div class="body">
+            <div class="container">
+                <h1 class="m-2 p-2">Your Cart</h1>
+                <div class="col-lg-9">
+                    <table style="width:100%" class="table cart" id="table-cart">
+                        <thead>
+                        </thead>
+                        <tbody id="tab-body">
+                           
+                        </tbody>
+                    </table style="width:100%">
+                </div>
+                
+            </div>
+            
+        </div>
         <div class="fooder"></div>
 </body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+        let tableBody = document.getElementById('tab-body');
 
+        async function getProduct() {
+            let url = "/api/cart/products";
+            try {
+                let products = await axios.get(url);
+                
+                return products.data;
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        getProduct().then(products => {
+            render(products);
+        }).catch((err) => {
+            console.log("Error when you read data on API" + err);
+        });
+
+        let render = (products) => {
+            let html = "";
+
+            products.map(pr => {
+                html += `
+                            <tr class="tab-body">
+                                <td>
+                                    <img src=/${pr.img} alt="" class="pr-img">
+                                </td>
+                                <td>
+                                    <div class="name mb-2">
+                                        <a href="#">${pr.name}</a>
+                                    </div>
+                                    <div class="des">
+                                        <span>
+                                            ${pr.des}
+                                        </span>
+                                    </div>
+
+                                    <div class="control">
+                                        <a href="#" class="delete">
+                                            <span>Delete</span>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span>${pr.price}</span>
+                                    <span>$</span>
+                                </td>
+                                <td>
+                                    <div class="amount">
+                                        <button class="btn btn-default bootstrap-touchspin-down" type="button">+</button>
+                                        <span class="value">${pr.amount}</span>
+                                        <button class="btn btn-default bootstrap-touchspin-down" type="button">-</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `
+            });
+
+            tableBody.innerHTML = html;
+        };
+
+    </script>
 </html>
