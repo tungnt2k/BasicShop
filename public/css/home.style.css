@@ -25,29 +25,39 @@
 
 .wrapper .headder .menu .navbar .container .collapse{}
 
-.wrapper .headder .menu .navbar .container .collapse .search-pr{
+.wrapper .headder .menu .navbar .container .collapse .search-all{
     margin-left: auto;
 }
 
-.wrapper .headder .menu .navbar .container .collapse .search-pr form{
+.wrapper .headder .menu .navbar .container .collapse .search-all form{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
 }
 
-.wrapper .headder .menu .navbar .container .collapse .search-pr .form-group{
+.wrapper .headder .menu .navbar .container .collapse .search-all .form-group{
     display: inline-block;
     margin: 0;
 }
 
-.wrapper .headder .menu .navbar .container .collapse .search-pr .form-group .form-control{
+.wrapper .headder .menu .navbar .container .collapse .search-all .form-group .form-control{
     width: 450px;
 }
 
-.wrapper .headder .menu .navbar .container .collapse .search-pr .btn-search{
+.wrapper .headder .menu .navbar .container .collapse .search-all .btn-search{
     display: inline;
     margin-left: 10px;    
+}
+
+.wrapper .headder .menu .navbar .container .collapse .search-all .btn-search a{
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.wrapper .headder .menu .navbar .container .collapse .search-all .btn-search:hover a{
+    color: black;
 }
 
 .wrapper .headder .menu .navbar .container .collapse .navbar-nav{}
@@ -59,6 +69,21 @@
 .wrapper .headder .menu .navbar .container .collapse .navbar-nav .nav-item .nav-link:hover{
     color: black;
 }
+
+.wrapper .headder .menu .navbar .container .collapse .navbar-nav .nav-item .nav-link .choosed-pr{
+    width: 20px;
+    background: #FeD330;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper .headder .menu .navbar .container .collapse .navbar-nav .nav-item .nav-link .choosed-pr span{
+    color: #1E272E;
+    font-size: 0.9rem;
+}
+
 
 .wrapper .body{
     margin: 30px 0;
@@ -83,4 +108,9 @@
 
 .wrapper .body .container .products .card.product:hover{
     box-shadow: 0 0 20px #C3C3C3;
+}
+
+.wrapper .body .container .search-pr{
+    width: 300px;
+    margin-left: auto;
 }

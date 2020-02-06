@@ -43,13 +43,14 @@
                         </button>
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <div class="search-pr">
-                                <form action="GET">
+                            <div class="search-all">
+                                <form action="/" method="GET">
                                     <div class="form-group">
                                         <input type="search" name="search" id="search" class="form-control">
                                     </div>
-                                    <button type="button" class="btn btn-outline-light btn-search">
+                                    <button type="submit" class="btn btn-outline-light btn-search">
                                         <i class="fa fa-search"></i>
+                                        <!-- <a href="#">Search</a> -->
                                         <span>Search</span>
                                     </button>
                                 </form>
@@ -57,15 +58,28 @@
 
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/product">
+                                    <a class="nav-link" href="/products">
                                         <i class="fa fa-product-hunt"></i>
-                                        <span>Product</span>
+                                        <span>Products</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">
                                         <i class="fa fa-bell"></i>
                                         <span>Thông báo của tôi</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/products/cart">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        <span>Cart</span>
+                                        <div class="choosed-pr" id="choosed-pr"><span><%=count%></span></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/login">
+                                        <i class="fa fa-users-cog"></i>
+                                        <span>Login</span>
                                     </a>
                                 </li>
                             </ul>
@@ -79,24 +93,86 @@
                 <div class="title">
                     <h1>Danh Muc</h1>
                 </div>
-                <div class="products">
+
+                <div class="search-pr">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" name="search" id="search-pr" class="form-control" placeholder="Search product">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="products" id="products">
                     <% products.forEach(product => { %>
-                    <div class="card product" style="width: 14rem;">
-                        <div class="pr-avatar">
-                            <img class="card-img-top" src='/<%= product.img %>' alt="Card image cap">
+                        <div class="card product" style="width: 14rem;">
+                            <div class="pr-avatar">
+                                <img class="card-img-top" src='/<%= product.img %>' alt="Card image cap">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"> <%= product.name %> </h5>
+                                <p class="card-text"> <%= product.des %> </p>
+                                <a href="/products/cart/<%= product._id%>" class="btn btn-primary" id="add-product" data-productId="<%=product._id%>">Add to cart</a>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title"> <%= product.name %> </h5>
-                            <p class="card-text"> <%= product.des %> </p>
-                            <a href="#" class="btn btn-primary">Add to cart</a>
-                        </div>
-                    </div>
                     <% }); %>
 
                 </div>
             </div>
         </div>
         <div class="fooder"></div>
+
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script type="text/javascript">
+            var url = "/api/products";
+            var searchProduct = document.getElementById('search-pr');
+            var products = document.getElementById('products');
+            var addProduct = document.getElementById('add-product');
+           
+            async function getProduct(){
+                try{
+                    const response = await axios.get(url);
+                    return response.data;
+                }catch(err){
+                    console.log(err)
+                }
+            }
+
+            //search product
+            searchProduct.addEventListener('keyup', (e) => {
+                let value = e.target.value;
+
+                getProduct().then((data) => {
+                    let filteredProducts = data.filter(index => {
+                        return index.name.toLowerCase().indexOf(value) !== -1;
+                    });
+
+                    renderProduct(filteredProducts);
+                });
+            })
+
+            function renderProduct(items){
+                let html = '';
+
+                items.map(product => {
+                    html += `
+                        <div class="card product" style="width: 14rem;">
+                            <div class="pr-avatar">
+                                <img class="card-img-top" src=${ product.img } alt="Card image cap">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"> ${ product.name }</h5>
+                                <p class="card-text"> ${ product.des } </p>
+                                <a href="#" class="btn btn-primary">Add to cart</a>
+                            </div>
+                        </div>
+                    `    
+                });
+
+                products.innerHTML = html;
+            }
+
+        </script>
 </body>
 
 </html>
