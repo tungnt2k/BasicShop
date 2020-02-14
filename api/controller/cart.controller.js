@@ -5,10 +5,10 @@ const Products = require('../../models/Product');
 
 module.exports.getProducts = async (req, res) => {
     try {
-        let sessionId = req.headers.cookie.split('=').splice(1).join('');
-        let sessions = await Sessions.findOne({sessionId: sessionId});
+        let sessionId = req.headers.cookie.split('=')[1].split(';')[0];
+        let sessions = await Sessions.findOne({ sessionId: sessionId });
         let products = [];
-        if(sessions.cart){
+        if (sessions.cart) {
             for (const key in sessions.cart) {
                 let product = await Products.findById(key);
                 product.amount = sessions.cart[key];
@@ -19,7 +19,7 @@ module.exports.getProducts = async (req, res) => {
         return res.json(products);
 
     } catch (err) {
-        console.log(err.message);
+        console.log('err is: ', err);
         return res.status(500).send("Server Error");
     }
 };

@@ -6,12 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Shopping</title>
-    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap&subset=vietnamese" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap&subset=vietnamese"
+        rel="stylesheet">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -26,7 +34,9 @@
                 <nav class="navbar navbar-expand-lg navbar-light bg-new">
                     <div class="container">
                         <a class="navbar-brand logo" href="/">Shopp</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
 
@@ -66,47 +76,55 @@
         <div class="body">
             <div class="container">
                 <h1 class="m-2 p-2">Your Cart</h1>
-                <div class="col-lg-9">
-                    <table style="width:100%" class="table cart" id="table-cart">
-                        <thead>
-                        </thead>
-                        <tbody id="tab-body">
-                           
-                        </tbody>
-                    </table style="width:100%">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <table style="width:100%" class="table cart" id="table-cart">
+                            <thead>
+                            </thead>
+                            <tbody id="tab-body">
+
+                            </tbody>
+                        </table style="width:100%">
+                    </div>
+                    <div class="col-lg-3 text-center">
+                        <a href="/products/cart/buy">
+                            <button class="btn btn-info">Buy Now</button>
+                        </a>
+                    </div>
                 </div>
-                
+
             </div>
-            
+
         </div>
         <div class="fooder"></div>
 </body>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="text/javascript">
-        let tableBody = document.getElementById('tab-body');
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+    let tableBody = document.getElementById('tab-body');
 
-        async function getProduct() {
-            let url = "/api/cart/products";
-            try {
-                let products = await axios.get(url);
-                
-                return products.data;
-            } catch (error) {
-                console.log(error);
-            }
+    //products
+    async function getProduct() {
+        let url = "/api/cart/products";
+        try {
+            let products = await axios.get(url);
+
+            return products.data;
+        } catch (error) {
+            console.log(error);
         }
+    }
 
-        getProduct().then(products => {
-            render(products);
-        }).catch((err) => {
-            console.log("Error when you read data on API" + err);
-        });
+    getProduct().then(products => {
+        render(products);
+    }).catch((err) => {
+        console.log("Error when you read data on API" + err);
+    });
 
-        let render = (products) => {
-            let html = "";
+    let render = (products) => {
+        let html = "";
 
-            products.map(pr => {
-                html += `
+        products.map(pr => {
+            html += `
                             <tr class="tab-body">
                                 <td>
                                     <img src=/${pr.img} alt="" class="pr-img">
@@ -140,10 +158,11 @@
                                 </td>
                             </tr>
                         `
-            });
+        });
 
-            tableBody.innerHTML = html;
-        };
+        tableBody.innerHTML = html;
+    };
 
-    </script>
+</script>
+
 </html>

@@ -14,6 +14,7 @@ module.exports.index = async (req, res, next) => {
 
     res.render('products/index',{
         products: products,
-        count: count
-    })
+        count: count,
+        sessionId: sessions.id
+    });
 };

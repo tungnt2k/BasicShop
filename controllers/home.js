@@ -1,7 +1,7 @@
 const Sessions = require('../models/sessions.model');
 
 module.exports.index = async (req, res) => {
-    let sessionId = req.headers.cookie.split('=').splice(1).join('');
+    let sessionId = req.headers.cookie.split('=')[1].split(';')[0];
     let count = 0;
     let sessions = await Sessions.findOne({sessionId: sessionId});
     if (sessions.cart) {

@@ -25,6 +25,9 @@ connectDB();
 // adminUser.password = bcryptjs.hashSync(adminUser.password, salt);
 // adminUser.save();
 
+//passport google
+const passportGoogle = require('./config/passport-google');
+
 //middlewares
 const adminMiddlewares = require('./middlewares/authAdmin');
 const authApiMiddleware = require('./middlewares/authApi.middleware');
@@ -38,19 +41,28 @@ const adminProductRoutes = require('./routes/adminProduct.routes');
 const apiRoutes = require('./routes/api.routes');
 const adminCateRoutes = require('./routes/adminCate.routes');
 const cartRoutes = require('./routes/cart.routes');
-const apiRouter = require('./api/routes/cart.routes');
+const userLogin = require('./routes/userLogin.router');
+
+// api router
+const apiCartRouter = require('./api/routes/cart.routes');
+const apiSessionRouter = require('./api/routes/session.route');
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.use('/', express.static('./public'));
 app.use(logger('dev'));
-app.use(session({
-    secret: config.get('Secret'),
-    resave: true,
-    key: 'user',
-    saveUninitialized: true
-}));
+app.use(session(
+    {
+        secret: config.get('Secret'),
+        resave: true,
+        key: 'user',
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 50*60*1000
+        }
+    }
+));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -60,6 +72,7 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/auth', userLogin);
 app.use('/', homeRoutes);
 app.use('/products', productRoutes);
 app.use('/products/cart', cartRoutes);
@@ -68,8 +81,9 @@ app.use('/products/cart', cartRoutes);
 app.use('/admin', adminRoutes);
 app.use('/admin/cates', adminMiddlewares, adminCateRoutes);
 app.use('/admin/products', adminMiddlewares, adminProductRoutes);
-app.use('/api', authApiMiddleware, apiRoutes);
-app.use('/api', apiRouter);
+app.use('/api', apiRoutes);
+app.use('/api', apiCartRouter);
+app.use('/api/sessions', apiSessionRouter);
 
 app.listen(PORT, (err) => {
     if (err) {

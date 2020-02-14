@@ -73,7 +73,7 @@
                                     <a class="nav-link" href="/products/cart">
                                         <i class="fa fa-shopping-cart"></i>
                                         <span>Cart</span>
-                                        <div class="choosed-pr" id="choosed-pr"><span><%=count%></span></div>
+                                        <div class="choosed-pr" id="amount-pr"><span><%=count%></span></div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -97,23 +97,25 @@
                 <div class="search-pr">
                     <form>
                         <div class="form-group">
-                            <input type="text" name="search" id="search-pr" class="form-control" placeholder="Search product">
+                            <input type="text" name="search" id="search-pr" class="form-control"
+                                placeholder="Search product">
                         </div>
                     </form>
                 </div>
 
                 <div class="products" id="products">
                     <% products.forEach(product => { %>
-                        <div class="card product" style="width: 14rem;">
-                            <div class="pr-avatar">
-                                <img class="card-img-top" src='/<%= product.img %>' alt="Card image cap">
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title"> <%= product.name %> </h5>
-                                <p class="card-text"> <%= product.des %> </p>
-                                <a href="/products/cart/<%= product._id%>" class="btn btn-primary" id="add-product" data-productId="<%=product._id%>">Add to cart</a>
-                            </div>
+                    <div class="card product" style="width: 14rem;">
+                        <div class="pr-avatar">
+                            <img class="card-img-top" src='/<%= product.img %>' alt="Card image cap">
                         </div>
+                        <div class="card-body">
+                            <h5 class="card-title"> <%= product.name %> </h5>
+                            <p class="card-text"> <%= product.des %> </p>
+                            <a href="/products/cart/<%= product._id%>" class="btn btn-primary add-product"
+                                data-idSession="<%=sessionId%>" data-productId="<%=product._id%>">Add to cart</a>
+                        </div>
+                    </div>
                     <% }); %>
 
                 </div>
@@ -127,13 +129,15 @@
             var url = "/api/products";
             var searchProduct = document.getElementById('search-pr');
             var products = document.getElementById('products');
-            var addProduct = document.getElementById('add-product');
-           
-            async function getProduct(){
-                try{
+            var addBtnProducts = document.querySelectorAll('.add-product');
+            let amountProduct = document.getElementById('amount-pr');
+
+            //get product
+            async function getProduct() {
+                try {
                     const response = await axios.get(url);
                     return response.data;
-                }catch(err){
+                } catch (err) {
                     console.log(err)
                 }
             }
@@ -151,26 +155,96 @@
                 });
             })
 
-            function renderProduct(items){
+            function renderProduct(items) {
                 let html = '';
 
                 items.map(product => {
                     html += `
                         <div class="card product" style="width: 14rem;">
                             <div class="pr-avatar">
-                                <img class="card-img-top" src=${ product.img } alt="Card image cap">
+                                <img class="card-img-top" src=${ product.img} alt="Card image cap">
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title"> ${ product.name }</h5>
-                                <p class="card-text"> ${ product.des } </p>
-                                <a href="#" class="btn btn-primary">Add to cart</a>
+                                <h5 class="card-title"> ${ product.name}</h5>
+                                <p class="card-text"> ${ product.des} </p>
+                                <a href="/" class="btn btn-primary add-product" data-idSession="<%=sessionId%>" data-productId="${ product._id}">Add to cart</a>
                             </div>
                         </div>
-                    `    
+                    `
                 });
 
                 products.innerHTML = html;
+
+                let btnAdd = document.querySelectorAll('.add-product');
+                addToCart(btnAdd);
             }
+
+            // add to cart
+            async function createSession(data) {
+                try {
+                    let url = 'http://localhost:3000/api/sessions';
+
+                    await axios.post(url, data).then((response) => {
+                        return response.data;
+                    });
+
+                } catch (error) {
+                    console.log('Error is: ', error);
+                }
+            };
+
+            function addToCart(key) {
+                key.forEach((btnProduct) => {
+                    btnProduct.addEventListener('click', async (e) => {
+                        e.preventDefault();
+
+                        let productId = btnProduct.getAttribute('data-productId');
+                        let id = btnProduct.getAttribute('data-idSession');
+                        let data = {
+                            productId: productId
+                        }
+                        let url = "http://localhost:3000/api/sessions/" + id;
+
+                        await createSession(data);
+
+                        await session(url).then((count) => {
+                            renderAmount(count);
+                            return;
+                        })
+                    });
+                });
+            };
+
+            addToCart(addBtnProducts);
+
+            //get session
+            async function session(url) {
+                let count = 0;
+                try {
+                    await axios.get(url).then((response) => {
+                        let data = response.data;
+                        let cart = data.cart;
+                        for (const key in cart) {
+                            count = count + cart[key];
+                        }
+
+                        // console.log(count);
+
+                    });
+                } catch (error) {
+                    console.log('Error is: ', error);
+                }
+
+                return count;
+            }
+
+
+            function renderAmount(count) {
+                let html = `<span>${count}</span>`;
+
+                amountProduct.innerHTML = html;
+            }
+
 
         </script>
 </body>

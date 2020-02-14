@@ -2,7 +2,7 @@ const Sessions = require('../models/sessions.model');
 
 module.exports = async (req, res, next) => {
     if (!req.headers.cookie) {
-        res.redirect('/products')
+        res.redirect('/')
         return;
     }
 
