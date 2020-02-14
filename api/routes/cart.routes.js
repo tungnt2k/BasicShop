@@ -5,5 +5,4 @@ const cartApiController = require('../controller/cart.controller')
 
 router.get('/cart/products', cartApiController.getProducts);
 
-
 module.exports = router;

@@ -15,60 +15,64 @@ module.exports.index = async (req, res) => {
     });
 }
 
-module.exports.addProduct = async (req, res, next) => {
-    try{
-        let sessionId = req.headers.cookie.split('=').splice(1).join('');
-        let productId = req.params.productId;
-        let sessionStore = await Sessions.findOne({
-            sessionId: sessionId
-        });
+// module.exports.addProduct = async (req, res, next) => {
+//     try{
+//         let sessionId = req.headers.cookie.split('=')[1].split(';')[0];
+//         let productId = req.params.productId;
+//         let sessionStore = await Sessions.findOne({
+//             sessionId: sessionId
+//         });
 
-        if (!sessionStore) {
-            res.status(402).send({messge: "sessions don't exits"});
-            res.redirect('/products');
-            return;
-        }
+//         if (!sessionStore) {
+//             res.status(402).send({messge: "sessions don't exits"});
+//             res.redirect('/products');
+//             return;
+//         }
         
-        let cart = await sessionStore.cart;
+//         let cart = await sessionStore.cart;
 
-        if (cart) {
-            for (const key in cart) {
-                if (key === productId) { 
-                    await Sessions.findOneAndUpdate(
-                        {sessionId: sessionId},
-                        { $set: { 
-                                    ['cart.' + productId ]: cart[key] + 1
-                                }
-                        }
-                    );  
-                    await sessionStore.save();
-                    res.redirect('/products');   
-                    return;
-                }
-            }
+//         if (cart) {
+//             for (const key in cart) {
+//                 if (key === productId) { 
+//                     await Sessions.findOneAndUpdate(
+//                         {sessionId: sessionId},
+//                         { $set: { 
+//                                     ['cart.' + productId ]: cart[key] + 1
+//                                 }
+//                         }
+//                     );  
+//                     await sessionStore.save();
+//                     res.redirect('/products');   
+//                     return;
+//                 }
+//             }
 
-            await Sessions.findOneAndUpdate(
-                {sessionId: sessionId},
-                { $set: { 
-                            ['cart.' + productId ]: 1 
-                        }
-                }
-            );  
+//             await Sessions.findOneAndUpdate(
+//                 {sessionId: sessionId},
+//                 { $set: { 
+//                             ['cart.' + productId ]: 1 
+//                         }
+//                 }
+//             );  
 
-        }else{
-            await Sessions.findOneAndUpdate(
-                {sessionId: sessionId},
-                { $set: { 
-                            ['cart.' + productId ]: 1 
-                        }
-                }
-            );
-        }
+//         }else{
+//             await Sessions.findOneAndUpdate(
+//                 {sessionId: sessionId},
+//                 { $set: { 
+//                             ['cart.' + productId ]: 1 
+//                         }
+//                 }
+//             );
+//         }
 
-        await sessionStore.save();
-        res.redirect('/products');
-    }catch(error){
-        console.log(error);
-        res.send("Not add product");
-    };
+//         await sessionStore.save();
+//         res.redirect('/products');
+//     }catch(error){
+//         console.log(error);
+//         res.send("Not add product");
+//     };
+// };
+
+module.exports.buy = (req, res) => {
+    res.send('You take it');
 };
