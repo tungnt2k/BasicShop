@@ -12,7 +12,7 @@ Basic Shop
 
 ## Authors
 
-* **NGUYỄN THANH TÙNG** - *SV ĐH THỦY LỢI* - [tungnt2k](https://github.com/tungnt2k)
+* **TungNT** - [tungnt2k](https://github.com/tungnt2k)
 
 
 
